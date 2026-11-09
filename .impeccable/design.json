@@ -1,0 +1,56 @@
+{
+  "mode": "Operate",
+  "direction": "Quiet cream and green listening workbench",
+  "purpose": "Load a compatible exported Phonon voice, generate English speech locally through Blixt, listen, and download WAV audio.",
+  "colors": {
+    "background": "#f5f4ee",
+    "paper": "#fffef9",
+    "sidebar": "#edeee6",
+    "text": "#202c28",
+    "muted": "#5e6861",
+    "action": "#285c47",
+    "actionHover": "#1c4836",
+    "border": "#d5d8ce",
+    "textArea": "#fafaf5",
+    "waveformSurface": "#f2f4ec",
+    "error": "#9b302c",
+    "focus": "#659d7e"
+  },
+  "typography": {
+    "uiFamily": "'Segoe UI', system-ui, sans-serif",
+    "headlineFamily": "Georgia, serif",
+    "baseSize": "16px",
+    "headline": { "size": "clamp(36px, 4.3vw, 58px)", "mobileSize": "40px", "weight": 400, "lineHeight": 1.08, "letterSpacing": "-0.035em" },
+    "sectionHeading": { "size": "17px", "weight": 650, "letterSpacing": "-0.015em" },
+    "controlSize": "14px",
+    "labelSize": "13px",
+    "supportingSize": "12px"
+  },
+  "spacing": {
+    "pageGutter": "44px",
+    "mobilePageGutter": "20px",
+    "panelInset": "30px",
+    "mobilePanelInset": "24px",
+    "controlGap": "20px",
+    "labelGap": "8px",
+    "introPadding": "58px 0 42px",
+    "mobileIntroPadding": "35px 0"
+  },
+  "radii": { "workspace": "14px", "controls": "7px", "textArea": "8px", "upload": "10px" },
+  "layout": {
+    "maxWidth": "1220px",
+    "workspaceColumns": "300px minmax(0, 1fr)",
+    "mobileBreakpoint": "760px",
+    "mobileWorkspaceColumns": "1fr",
+    "taskOrder": "Voice and engine setup, text and generation controls, generated audio",
+    "textAreaMinHeight": "185px",
+    "waveformHeight": "90px"
+  },
+  "interaction": {
+    "signature": "A quiet baseline becomes the waveform of actual generated audio.",
+    "focusOutline": "3px solid #659d7e; offset 3px",
+    "disabledControls": "Opacity 0.5 and not-allowed cursor",
+    "constraints": ["No simulated metrics or decorative waveform", "No cloud cloning or API key entry"]
+  },
+  "sources": ["PRODUCT.md", "DESIGN.md", "public/style.css"]
+}

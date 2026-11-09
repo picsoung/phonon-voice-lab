@@ -1,0 +1,1 @@
+{"name":"phonon-voice-lab","version":"0.1.0","private":true,"type":"module","scripts":{"build":"node scripts/build.mjs","dev":"node scripts/server.mjs","test":"node --test tests/*.test.mjs"},"devDependencies":{"esbuild":"^0.28.1","playwright-core":"^1.58.0"}}

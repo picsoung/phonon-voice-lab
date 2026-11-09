@@ -1,0 +1,10 @@
+node_modules/
+public/app.js
+public/runtime/
+.test/
+.impeccable/review/
+
+__pycache__/
+*.pyc
+.env
+.env.*

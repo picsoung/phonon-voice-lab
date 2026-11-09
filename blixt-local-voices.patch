@@ -1,0 +1,48 @@
+diff --git a/src/index.ts b/src/index.ts
+index fe28c53..398b771 100644
+--- a/src/index.ts
++++ b/src/index.ts
+@@ -132,6 +132,7 @@ export class Phonon {
+   /** Frames the alignment head reads ahead of the audio (files.ts). */
+   private readonly lag: number;
+   private closed = false;
++  private readonly localVoices = new Map<string, Float32Array<ArrayBuffer>>();
+   /** Settles when the GPU device is lost (a reset), or the CPU's worker stops: load again to go on. */
+   readonly lost: Promise<unknown>;
+   readonly backend: Backend;
+@@ -191,6 +192,13 @@ export class Phonon {
+     await this.runtime.close();
+   }
+ 
++  /** Local demo extension: registers already-encoded voice latents, without uploading. */
++  addVoice(id: string, buffer: ArrayBuffer): void {
++    if (this.closed) throw new Error("This model is closed.");
++    if (!id.startsWith("local:")) throw new Error("Local voice IDs must start with local:");
++    this.localVoices.set(id, readVoice(buffer));
++  }
++
+   /** The catalog's voices in the model's languages. */
+   get voices(): readonly Voice[] {
+     return this.catalog;
+@@ -217,8 +225,10 @@ export class Phonon {
+     if (this.closed) throw new Error("This model is closed.");
+     const { voice = this.defaultVoice, speed = 1, seed = 1, onAudio, onWord, signal } = options;
+     const v = this.catalog.find((c) => c.name === voice || c.id === voice);
+-    if (!v) throw new Error(`No voice ${voice}`);
+-    const latents = this.engine.hasVoice(v.id) ? undefined : readVoice(await cached(voiceUrl(v.id)));
++    const local = this.localVoices.get(voice);
++    if (!v && !local) throw new Error(`No voice ${voice}`);
++    const voiceId = v?.id ?? voice;
++    const latents = this.engine.hasVoice(voiceId) ? undefined : local ?? readVoice(await cached(voiceUrl(voiceId)));
+     const audio: Float32Array[] = [];
+     const words: Word[] = [];
+     const tokens: Span[] = [];
+@@ -234,7 +244,7 @@ export class Phonon {
+         this.lag,
+         onWord && ((w) => onWord(shiftWord(w))),
+       );
+-      const out = await this.engine.synthesize(ids, v.id, {
++      const out = await this.engine.synthesize(ids, voiceId, {
+         seed: seed + i,
+         words: part.split(/\s+/).filter(Boolean).length,
+         pace: paceForSpeed(speed),
